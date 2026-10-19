@@ -1,0 +1,13 @@
+{
+  "name": "finn-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Finn's minimal web development portfolio",
+  "scripts": {
+    "dev": "node server.mjs",
+    "start": "node server.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
