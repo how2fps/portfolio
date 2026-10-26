@@ -182,3 +182,20 @@ h2 { font-size: 32px; font-weight: 550; letter-spacing: -1.2px; line-height: 1.2
     .about-section { margin-top: 32px; padding-block: 30px; }
     a { text-decoration: none; }
 }
+
+/* SproutTeach details also remain readable in the standalone overview. */
+.project-details { margin-top:19px; border-top:1px solid var(--border); padding-top:15px; }
+.project-details summary { width:fit-content; cursor:pointer; font-size:12px; color:var(--text); }
+.project-stack-group { margin-top:24px; }
+.project-stack-group h4,.project-gallery h4 { margin:0 0 9px; font-size:14px; font-weight:550; }
+.project-stack-group p { color:var(--muted); font-size:12px; line-height:1.85; }
+.project-gallery { margin-top:26px; }
+.project-preview-note { color:var(--subtle); font-size:11px; line-height:1.8; }
+.overview-screenshots { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px 12px; margin-top:17px; }
+.overview-screenshots figure { min-width:0; margin:0; }
+.overview-screenshots a { display:flex; align-items:center; justify-content:center; aspect-ratio:8/5; overflow:hidden; border:1px solid var(--border); border-radius:7px; background:#eef1f4; }
+.overview-screenshots img { width:100%; height:100%; object-fit:contain; }
+.overview-screenshots figcaption { margin-top:8px; font-size:10px; line-height:1.7; }
+.overview-screenshots figcaption strong { display:block; font-weight:500; }
+.overview-screenshots figcaption span { display:block; margin-top:3px; color:var(--muted); }
+@media(max-width:400px) { .overview-screenshots { grid-template-columns:1fr; } }

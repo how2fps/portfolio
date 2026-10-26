@@ -1,486 +1,88 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta
-            name="description"
-            content="Finn's web development portfolio. Explore SproutTeach, the Enbyte Systems website, Envorya spa POS, and a smart device manager built for GovTech."
-        />
-        <meta name="theme-color" content="#111113" />
-        <title>Finn — Web Developer</title>
-        <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
-        <link rel="stylesheet" href="./style.css" />
-        <script src="./index.js" defer></script>
-    </head>
-    <body id="top">
-        <a class="skip-link" href="#main">Skip to content</a>
-        <header class="site-header">
-            <nav class="nav page-width" aria-label="Main navigation">
-                <a class="wordmark" href="#top" aria-label="Finn, home"
-                    >finn<span>.</span></a
-                >
-                <div class="nav-links">
-                    <a href="#projects-section">Work</a>
-                    <a href="#about-me-section">About</a>
-                    <a
-                        class="external-link"
-                        href="https://github.com/how2fps"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        >GitHub <span aria-hidden="true">↗</span></a
-                    >
-                </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Finn's web development portfolio. Explore SproutTeach, Enbyte Systems, Envorya spa POS, GovTech work, and more in a familiar project workspace.">
+    <meta name="theme-color" content="#181818">
+    <title>Finn — Web Developer</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="./workspace.css">
+    <script src="./workspace.js" defer></script>
+</head>
+<body>
+    <svg class="icon-defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+            <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10H15v-6H9v6H3Z"/></symbol>
+            <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7V5a1 1 0 0 1 1-1h6l2 3h8a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Z"/><path d="M3 10h18"/></symbol>
+            <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></symbol>
+            <symbol id="i-person" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2"/></symbol>
+            <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+            <symbol id="i-panel-left" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></symbol>
+            <symbol id="i-panel-right" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M15 4v16"/></symbol>
+            <symbol id="i-arrow-up-right" viewBox="0 0 24 24"><path d="M6 18 18 6M6 6h12v12"/></symbol>
+            <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M4 12h16m-6-6 6 6-6 6"/></symbol>
+            <symbol id="i-send" viewBox="0 0 24 24"><path d="M12 20V4m-6 6 6-6 6 6"/></symbol>
+            <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+            <symbol id="i-link" viewBox="0 0 24 24"><path d="m10 13 4-4m-7 6-2 2a4 4 0 0 0 6 6l4-4a4 4 0 0 0 0-6M9 11a4 4 0 0 1 0-6l4-4a4 4 0 0 1 6 6l-2 2" transform="translate(0 1) scale(.9)"/></symbol>
+            <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/></symbol>
+            <symbol id="i-sprout" viewBox="0 0 24 24"><path d="M12 21v-9m0 3C6 15 3 10 4 5c6 0 10 3 8 10Zm0-3c0-6 4-9 10-9 0 6-3 10-10 9Z"/></symbol>
+            <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3Zm4 5h4m-4 4h4m-4 4h2"/></symbol>
+            <symbol id="i-github" viewBox="0 0 24 24"><path d="M9 19c-4 1-4-2-6-2m12 5v-4a4 4 0 0 0-1-3c4-.4 7-2 7-6a5 5 0 0 0-1.5-3.5A4 4 0 0 0 19 2s-2 0-4 1.5a13 13 0 0 0-6 0C7 2 5 2 5 2a4 4 0 0 0-.5 3.5A5 5 0 0 0 3 9c0 4 3 5.6 7 6a4 4 0 0 0-1 3v4"/></symbol>
+        </defs>
+    </svg>
+    <noscript>This portfolio also has a full <a href="./overview.html">overview of all projects</a>. <style>.app{display:none}</style></noscript>
+    <div class="app">
+        <nav class="rail" aria-label="Workspace shortcuts">
+            <a class="icon-button active" href="#home" aria-label="Portfolio home" title="Home"><svg aria-hidden="true"><use href="#i-home"/></svg></a>
+            <button class="icon-button" id="sidebar-toggle" type="button" aria-label="Toggle project sidebar" aria-controls="sidebar" aria-expanded="true" title="Projects"><svg aria-hidden="true"><use href="#i-panel-left"/></svg></button>
+            <button class="icon-button" id="rail-search" type="button" aria-label="Search portfolio" title="Search (Ctrl+K)"><svg aria-hidden="true"><use href="#i-search"/></svg></button>
+            <a class="icon-button" href="#about" aria-label="About Finn" title="About me"><svg aria-hidden="true"><use href="#i-person"/></svg></a>
+            <span class="rail-divider" aria-hidden="true"></span>
+            <a class="icon-button" href="./overview.html" aria-label="Open portfolio overview" title="Portfolio overview"><svg aria-hidden="true"><use href="#i-grid"/></svg></a>
+            <div class="rail-spacer"></div>
+            <a class="icon-button" href="https://github.com/how2fps" target="_blank" rel="noopener noreferrer" aria-label="Finn on GitHub" title="GitHub"><svg aria-hidden="true"><use href="#i-github"/></svg></a>
+            <a class="avatar" href="#about" aria-label="About Finn" title="Finn">F</a>
+        </nav>
+        <button class="mobile-backdrop" id="sidebar-backdrop" type="button" aria-label="Close project navigation"></button>
+        <aside class="sidebar" id="sidebar" aria-label="Portfolio navigation">
+            <header class="sidebar-header"><div><a class="brand" href="#home">Finn<span>.</span></a><p>Web developer</p></div></header>
+            <nav class="sidebar-shortcuts" aria-label="About this portfolio">
+                <a class="nav-action" href="#home"><svg aria-hidden="true"><use href="#i-home"/></svg>Welcome</a>
+                <button class="nav-action" id="search-button" type="button"><svg aria-hidden="true"><use href="#i-search"/></svg>Search projects <kbd>Ctrl K</kbd></button>
+                <a class="nav-action" href="#about"><svg aria-hidden="true"><use href="#i-person"/></svg>About me</a>
             </nav>
-        </header>
-        <main id="main" class="page-width">
-            <section class="hero" aria-labelledby="hero-heading">
-                <h1 id="hero-heading">
-                    Simple interfaces.<br /><span>Thoughtfully built.</span>
-                </h1>
-                <p class="hero-description">
-                    I care about the small details that make a product easier to
-                    use.<br class="desktop-break" />
-                    Turning everyday friction into a better experience is what I
-                    enjoy.
-                </p>
+            <div class="projects-label"><span>Projects</span><span id="project-count">8</span></div>
+            <nav class="project-navigation" id="project-navigation" aria-label="Projects"><p class="loading-note">Loading projects…</p></nav>
+            <section class="sidebar-recents" aria-labelledby="recent-chats-heading">
+                <h2 id="recent-chats-heading">Recent chats</h2>
+                <nav class="recent-chats-list" id="recent-chats-list" aria-label="Recent chats"><p class="recent-empty">Your recent chats will appear here.</p></nav>
             </section>
-            <section
-                id="projects-section"
-                class="work-section"
-                aria-labelledby="work-heading"
-            >
-                <div class="section-heading">
-                    <div>
-                        <p class="eyebrow">A few things I've worked on</p>
-                        <h2 id="work-heading">
-                            Selected work<span class="quiet-period">.</span>
-                        </h2>
+        </aside>
+        <main class="main" id="main">
+            <header class="topbar">
+                <svg aria-hidden="true"><use href="#i-folder"/></svg><h1 id="page-title">Finn's portfolio</h1>
+                <div class="topbar-actions">
+                    <a class="icon-button overview-button" href="./overview.html" aria-label="Open portfolio overview" title="Portfolio overview"><svg aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a>
+                    <button class="icon-button" id="details-toggle" type="button" aria-label="Toggle project details" aria-controls="details" aria-expanded="false" title="Project details"><svg aria-hidden="true"><use href="#i-panel-right"/></svg></button>
+                </div>
+            </header>
+            <div class="body-layout">
+                <section class="conversation" aria-label="Portfolio content">
+                    <div class="conversation-scroll" id="conversation-scroll"><div class="content" id="content"><section class="welcome"><h2>Hey, I'm Finn.<br><span>I make things easier to use.</span></h2><p class="body-copy">I'm a web developer who cares about the small details. Explore my projects, or <a href="./overview.html">view the portfolio overview</a>.</p></section></div></div>
+                    <div class="composer-wrap">
+                        <form class="composer" id="explore-form" role="search" aria-label="Search portfolio">
+                            <label class="sr-only" for="explore-input">Search projects, technologies, or information about Finn</label>
+                            <input id="explore-input" type="search" placeholder="Explore my projects…" autocomplete="off" maxlength="240">
+                            <div class="composer-bottom"><button class="composer-tool" type="button" data-query="All projects"><svg aria-hidden="true"><use href="#i-grid"/></svg>All projects</button><button class="send-button" type="submit" aria-label="Search"><svg aria-hidden="true"><use href="#i-send"/></svg></button></div>
+                        </form>
+                        <p class="composer-caption">Try a project name, “spa POS”, or “React”.</p>
                     </div>
-                    <span class="section-note">01 — 08</span>
-                </div>
-                <!-- Add your specific contribution and outcomes when those details are available. -->
-                <div class="project-grid">
-                    <article class="project-card">
-                        <a
-                            class="project-image-link project-cover sprout-cover"
-                            href="https://github.com/how2fps/teaching-app"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label="View SproutTeach frontend on GitHub"
-                        >
-                            <svg
-                                class="cover-icon"
-                                viewBox="0 0 48 48"
-                                fill="none"
-                                aria-hidden="true"
-                            >
-                                <path
-                                    d="M24 39V24m0 6C12 30 7 22 8 12c11 0 19 5 16 18Zm0-6C23 14 29 8 40 8c0 10-5 17-16 16Z"
-                                    stroke="currentColor"
-                                    stroke-width="1.8"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                />
-                            </svg>
-                            <span class="cover-title">SproutTeach</span>
-                            <span class="cover-subtitle"
-                                >Teaching application</span
-                            >
-                            <span class="preview-indicator" aria-hidden="true"
-                                >↗</span
-                            >
-                        </a>
-                        <div class="project-heading">
-                            <h3>SproutTeach</h3>
-                            <span class="project-number">01</span>
-                        </div>
-                        <p class="project-category">
-                            Teaching application · Frontend &amp; backend
-                        </p>
-                        <p class="project-summary">
-                            A teaching application built with separate frontend
-                            and backend projects.
-                        </p>
-                        <div
-                            class="project-links"
-                            aria-label="SproutTeach source code"
-                        >
-                            <a
-                                class="text-link"
-                                href="https://github.com/how2fps/teaching-app"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                >Frontend <span aria-hidden="true">↗</span></a
-                            >
-                            <a
-                                class="text-link"
-                                href="https://github.com/how2fps/teaching-app-backend"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                >Backend <span aria-hidden="true">↗</span></a
-                            >
-                        </div>
-                    </article>
-                    <article class="project-card">
-                        <a
-                            class="project-image-link project-cover enbyte-cover"
-                            href="https://enbytesystems.vercel.app/#services"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label="Visit the Enbyte Systems website"
-                        >
-                            <span class="cover-eyebrow">Enbyte Systems</span>
-                            <span class="cover-title"
-                                >The business<br />of care.</span
-                            >
-                            <span class="cover-subtitle"
-                                >Website design &amp; development</span
-                            >
-                            <span class="preview-indicator" aria-hidden="true"
-                                >↗</span
-                            >
-                        </a>
-                        <div class="project-heading">
-                            <h3>Enbyte Systems</h3>
-                            <span class="project-number">02</span>
-                        </div>
-                        <p class="project-category">Business website</p>
-                        <p class="project-summary">
-                            A website introducing Enbyte Systems and its
-                            software for spa, wellness, and TCM businesses.
-                        </p>
-                        <div class="project-links">
-                            <a
-                                class="text-link"
-                                href="https://enbytesystems.vercel.app/#services"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                >Visit website
-                                <span aria-hidden="true">↗</span></a
-                            >
-                        </div>
-                    </article>
-                    <article class="project-card">
-                        <a
-                            class="project-image-link project-cover envorya-cover"
-                            href="https://enbytesystems.vercel.app/#services"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label="Explore the Envorya spa POS on Enbyte Systems"
-                        >
-                            <svg
-                                class="cover-icon"
-                                viewBox="0 0 48 48"
-                                fill="none"
-                                aria-hidden="true"
-                            >
-                                <path
-                                    d="M13 7h22v34l-5-3-6 3-6-3-5 3V7Z"
-                                    stroke="currentColor"
-                                    stroke-width="1.7"
-                                    stroke-linejoin="round"
-                                />
-                                <path
-                                    d="M19 16h10M19 23h10M19 30h5"
-                                    stroke="currentColor"
-                                    stroke-width="1.7"
-                                    stroke-linecap="round"
-                                />
-                            </svg>
-                            <span class="cover-title">Envorya</span>
-                            <span class="cover-subtitle"
-                                >Spa &amp; wellness point of sale</span
-                            >
-                            <span class="preview-indicator" aria-hidden="true"
-                                >↗</span
-                            >
-                        </a>
-                        <div class="project-heading">
-                            <h3>Envorya POS</h3>
-                            <span class="project-number">03</span>
-                        </div>
-                        <p class="project-category">
-                            Spa POS · Business operations
-                        </p>
-                        <p class="project-summary">
-                            Point-of-sale software for spa operations, including
-                            appointments, customer packages, sales, and
-                            receipts.
-                        </p>
-                        <div class="project-links">
-                            <a
-                                class="text-link"
-                                href="https://enbytesystems.vercel.app/#services"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                >Explore product
-                                <span aria-hidden="true">↗</span></a
-                            >
-                        </div>
-                    </article>
-                    <article class="project-card">
-                        <a
-                            class="project-image-link device-project"
-                            href="./pictures/optimized/GovTechProject.webp"
-                            data-preview
-                            data-title="Smart Device Manager"
-                            data-description="Built for GovTech. An interactive floor plan for viewing IoT device status and adjusting device settings. Technologies: React, Redux, Leaflet, Ant Design, and Material UI."
-                            aria-label="Preview the Smart Device Manager interface"
-                            aria-haspopup="dialog"
-                        >
-                            <img
-                                src="./pictures/optimized/GovTechProject.webp"
-                                srcset="
-                                    ./pictures/optimized/GovTechProject-480.webp 480w,
-                                    ./pictures/optimized/GovTechProject.webp     960w
-                                "
-                                sizes="(max-width: 600px) calc(100vw - 80px), (max-width: 1120px) calc(50vw - 72px), 488px"
-                                width="960"
-                                height="463"
-                                loading="lazy"
-                                decoding="async"
-                                alt="Device controls alongside a floor plan showing connected IoT devices"
-                            />
-                            <span class="preview-indicator" aria-hidden="true"
-                                >↗</span
-                            >
-                        </a>
-                        <div class="project-heading">
-                            <h3>Smart Device Manager</h3>
-                            <span class="project-number">04</span>
-                        </div>
-                        <p class="project-category">
-                            GovTech · IoT device management
-                        </p>
-                        <p class="project-summary">
-                            An interactive floor plan for monitoring IoT devices
-                            and adjusting their settings, built for GovTech.
-                        </p>
-                        <ul class="tech-list" aria-label="Technologies used">
-                            <li>React</li>
-                            <li>Redux</li>
-                            <li>Leaflet</li>
-                            <li>Ant Design</li>
-                            <li>Material UI</li>
-                        </ul>
-                    </article>
-                    <article class="project-card">
-                        <a
-                            class="project-image-link mobile-project"
-                            href="./pictures/optimized/kNow.webp"
-                            data-preview
-                            data-title="kNow"
-                            data-description="A mobile application with map exploration, places, profiles, and stories."
-                            aria-label="Preview kNow"
-                            aria-haspopup="dialog"
-                        >
-                            <img
-                                src="./pictures/optimized/kNow.webp"
-                                srcset="
-                                    ./pictures/optimized/kNow-480.webp 480w,
-                                    ./pictures/optimized/kNow.webp     821w
-                                "
-                                sizes="(max-width: 600px) calc(100vw - 80px), (max-width: 1120px) calc(50vw - 72px), 488px"
-                                width="821"
-                                height="416"
-                                loading="lazy"
-                                decoding="async"
-                                alt="Four kNow mobile screens showing a map, location search, a profile, and a story"
-                            />
-                            <span class="preview-indicator" aria-hidden="true"
-                                >↗</span
-                            >
-                        </a>
-                        <div class="project-heading">
-                            <h3>kNow</h3>
-                            <span class="project-number">05</span>
-                        </div>
-                        <p class="project-category">
-                            Mobile application · Maps &amp; stories
-                        </p>
-                    </article>
-                    <article class="project-card">
-                        <a
-                            class="project-image-link"
-                            href="./pictures/optimized/Pic'A'Pixel.webp"
-                            data-preview
-                            data-title="Pic’A’Pixel"
-                            data-description="Pic’A’Pixel, shown in its exhibition setting."
-                            aria-label="Preview Pic’A’Pixel"
-                            aria-haspopup="dialog"
-                        >
-                            <img
-                                src="./pictures/optimized/Pic'A'Pixel.webp"
-                                srcset="
-                                    ./pictures/optimized/Pic'A'Pixel-480.webp 480w,
-                                    ./pictures/optimized/Pic'A'Pixel.webp     960w
-                                "
-                                sizes="(max-width: 600px) calc(100vw - 40px), (max-width: 1120px) calc(50vw - 32px), 528px"
-                                width="960"
-                                height="445"
-                                loading="lazy"
-                                decoding="async"
-                                alt="The Pic’A’Pixel exhibition space, with visitors and a large projected display"
-                            />
-                            <span class="preview-indicator" aria-hidden="true"
-                                >↗</span
-                            >
-                        </a>
-                        <div class="project-heading">
-                            <h3>Pic’A’Pixel</h3>
-                            <span class="project-number">06</span>
-                        </div>
-                        <p class="project-category">Exhibition project</p>
-                    </article>
-                    <article class="project-card">
-                        <a
-                            class="project-image-link"
-                            href="./pictures/optimized/TappinQueen.webp"
-                            data-preview
-                            data-title="Tappin Queen"
-                            data-description="Tappin Queen, shown with the team and physical prototype."
-                            aria-label="Preview Tappin Queen"
-                            aria-haspopup="dialog"
-                        >
-                            <img
-                                src="./pictures/optimized/TappinQueen.webp"
-                                srcset="
-                                    ./pictures/optimized/TappinQueen-480.webp 480w,
-                                    ./pictures/optimized/TappinQueen.webp     960w
-                                "
-                                sizes="(max-width: 600px) calc(100vw - 40px), (max-width: 1120px) calc(50vw - 32px), 528px"
-                                width="960"
-                                height="639"
-                                loading="lazy"
-                                decoding="async"
-                                alt="The Tappin Queen team presenting their physical prototype"
-                            />
-                            <span class="preview-indicator" aria-hidden="true"
-                                >↗</span
-                            >
-                        </a>
-                        <div class="project-heading">
-                            <h3>Tappin Queen</h3>
-                            <span class="project-number">07</span>
-                        </div>
-                        <p class="project-category">Physical prototype</p>
-                    </article>
-                    <article class="project-card">
-                        <a
-                            class="project-image-link"
-                            href="./pictures/optimized/SutDoki.webp"
-                            data-preview
-                            data-title="SutDoki"
-                            data-description="A dialogue-based game, shown with its characters and conversation choices."
-                            aria-label="Preview SutDoki"
-                            aria-haspopup="dialog"
-                        >
-                            <img
-                                src="./pictures/optimized/SutDoki.webp"
-                                srcset="
-                                    ./pictures/optimized/SutDoki-480.webp 480w,
-                                    ./pictures/optimized/SutDoki.webp     960w
-                                "
-                                sizes="(max-width: 600px) calc(100vw - 40px), (max-width: 1120px) calc(50vw - 32px), 528px"
-                                width="960"
-                                height="540"
-                                loading="lazy"
-                                decoding="async"
-                                alt="SutDoki game screen with characters, dialogue, and multiple conversation choices"
-                            />
-                            <span class="preview-indicator" aria-hidden="true"
-                                >↗</span
-                            >
-                        </a>
-                        <div class="project-heading">
-                            <h3>SutDoki</h3>
-                            <span class="project-number">08</span>
-                        </div>
-                        <p class="project-category">Dialogue-based game</p>
-                    </article>
-                </div>
-                <a
-                    class="text-link more-work"
-                    href="https://github.com/how2fps?tab=repositories"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    >More on GitHub <span aria-hidden="true">↗</span></a
-                >
-            </section>
-            <section
-                id="about-me-section"
-                class="about-section"
-                aria-labelledby="about-heading"
-            >
-                <div class="about-portrait">
-                    <img
-                        src="./pictures/optimized/face.webp"
-                        width="495"
-                        height="519"
-                        loading="lazy"
-                        decoding="async"
-                        alt="Finn"
-                    />
-                </div>
-                <div class="about-copy">
-                    <p class="eyebrow">The person behind the pixels</p>
-                    <h2 id="about-heading">
-                        A little about me<span class="quiet-period">.</span>
-                    </h2>
-                    <p>
-                        My path into development started at Temasek Polytechnic
-                        in 2020, when I began learning web development
-                        independently, and continued at SUTD.
-                    </p>
-                    <p>
-                        Small everyday frustrations got me interested in
-                        building better interfaces. I like making things feel
-                        clear, useful, and easy to get around.
-                    </p>
-                    <p class="personal-note">
-                        Away from the keyboard: Teamfight Tactics and time at
-                        the gym.
-                    </p>
-                </div>
-            </section>
-            <footer class="site-footer">
-                <div>
-                    <p class="footer-heading">There's more behind the work.</p>
-                    <a
-                        class="text-link"
-                        href="https://github.com/how2fps"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        >Find me on GitHub <span aria-hidden="true">↗</span></a
-                    >
-                </div>
-                <a class="back-to-top" href="#top"
-                    >Back to top <span aria-hidden="true">↑</span></a
-                >
-            </footer>
-        </main>
-        <dialog
-            class="project-preview"
-            aria-labelledby="preview-title"
-            aria-describedby="preview-description"
-        >
-            <div class="preview-header">
-                <div>
-                    <p class="eyebrow">Project preview</p>
-                    <h2 id="preview-title"></h2>
-                </div>
-                <button
-                    class="preview-close"
-                    type="button"
-                    aria-label="Close preview"
-                    autofocus
-                >
-                    ✕
-                </button>
+                </section>
+                <aside class="details" id="details" aria-label="Project details"><div id="details-content"></div></aside>
             </div>
-            <div class="preview-image-container"></div>
-            <p id="preview-description"></p>
-        </dialog>
-    </body>
+        </main>
+    </div>
+    <p class="sr-only" role="status" aria-live="polite" id="view-status"></p>
+</body>
 </html>

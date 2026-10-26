@@ -1,6 +1,6 @@
 # Finn's portfolio
 
-A minimal, responsive portfolio using plain HTML, CSS, and JavaScript. No dependencies or build step.
+A responsive portfolio with a Codex-inspired workspace: projects in a sidebar, details in the centre, useful links on the right, and a project search at the bottom. It uses plain HTML, CSS, and JavaScript with no dependencies or build step.
 
 ## Start locally
 
@@ -18,17 +18,33 @@ You can also use `npm run dev`. If PowerShell blocks `npm.ps1`, use `npm.cmd run
 
 ## Edit the portfolio
 
-- `index.html`: introduction, projects, biography, and links.
-- `style.css`: colors, typography, spacing, and responsive layouts.
-- `index.js`: accessible project image previews. The site and image links also work without JavaScript.
+- `index.html`: the main portfolio workspace.
+- `workspace.css`: workspace layout, colors, and responsive navigation.
+- `workspace.js`: project navigation, local keyword search, and detail views. Search matches existing project content; it does not use an AI service.
+- **Recent chats** at the bottom of the sidebar reopens the six most recently viewed projects, pages, and searches. History is stored locally in the visitor's browser and survives refreshes.
+- `overview.html`: the traditional portfolio and the source of the project names, descriptions, links, technologies, and biography used by the workspace. Edit project content here; the workspace reads it automatically.
+- `style.css`: the traditional overview's colors, typography, and layouts.
+- `index.js`: image previews on the overview page.
 - `pictures/optimized/`: small WebP images used by the page. Original images are preserved in `pictures/`.
+- `pictures/sproutteach/`: eleven reconstructed app screenshots and small WebP thumbnails.
+- `pictures/envogue/`: nine Envogue / Envorya POS screenshots and thumbnails. Both galleries use responsive main images and lazy-loaded thumbnails.
 
-All eight projects use the same card layout. SproutTeach links to the supplied frontend and backend repositories. Enbyte Systems and Envorya POS have separate entries, both linked to the supplied Enbyte Systems website. The three new entries use lightweight typographic covers rather than unverified product screenshots.
+All eight projects appear in the workspace sidebar and remain available in the overview. SproutTeach includes an eleven-screen walkthrough, separate frontend and backend technology descriptions, and both source repository links. Envorya POS (the Envogue app and API) now has a nine-screen walkthrough and separate frontend/backend explanations. Both it and Enbyte Systems link to the supplied product website.
 
-Project descriptions use supplied details, Enbyte Systems' public product information, and what is visible in the existing screenshots. SproutTeach's repository contents could not be read through the connected GitHub tool, so its description stays limited to the confirmed frontend/backend structure. Add your specific contribution, tools, and results for each project when available. The education text avoids the old “year 2” reference so it does not go stale.
+SproutTeach's stack descriptions were checked against the local `teaching-app` and `teaching-app-backend` source. The frontend uses React/TypeScript, Vite, Tailwind CSS, Radix UI, TanStack Query, Axios, React Hook Form, Zod, Konva, dnd-kit, Socket.IO and jsPDF. The backend uses Node/Express/TypeScript, MySQL, Redis with Lua and Pub/Sub, Socket.IO, Passport for Google/Microsoft sign-in, Cloudflare R2 via the S3 SDK, and Docker.
+
+The screenshots were rendered from a separate local reconstruction of the original frontend using sample classroom data. The hosted service is offline; attendance, scores and names shown are demonstrations rather than usage metrics. Images were not redesigned or generated. The optimized screenshots and thumbnails are included in this repository; the local reconstruction tools are maintained separately.
+
+Envogue / Envorya descriptions were checked against the local `envouge-app` and `envogue-api` code. The frontend uses React/TypeScript, Vite/PWA, React Router, Tailwind CSS, Flowbite, Material UI, i18next, Axios, Chart.js, jsPDF, spreadsheet exports and ZXing. The backend is JavaScript/CommonJS on Node/Express with the native MongoDB driver, transactional payment records and shared calculations, JWT/bcrypt, Firebase Storage, Pusher, Mailjet and Vercel scheduled routes. It records payments confirmed by staff; the description does not imply a payment gateway or bank transfer service.
+
+The Envogue screenshots show the original frontend running with local fixtures. Customer identities, schedules, stock and sales figures are fictional, and no production database or external service was used. The nine optimized screenshots and thumbnails are included in this repository. The existing Envorya title and project URL are retained because Envogue and Envorya coexist in the app's source and branding.
+
+Other descriptions use supplied details, Enbyte Systems' public product information, and existing screenshots. Add specific contributions and measured outcomes when available.
 
 The GitHub profile comes from this repository's existing remote. Add your preferred email, LinkedIn profile, and résumé link when ready.
 
 ## Publish
 
-Deploy `index.html`, `style.css`, `index.js`, `favicon.svg`, and `pictures/optimized/` to any static website host. The development server is only for local preview. It injects the live reload connection into served HTML, so the deployed files have no live reload code or dependencies.
+Deploy `index.html`, `workspace.css`, `workspace.js`, `overview.html`, `style.css`, `index.js`, `favicon.svg`, `pictures/optimized/`, `pictures/sproutteach/`, and `pictures/envogue/` to any static website host. Keep `overview.html` alongside the workspace: it supplies the project content and provides the alternate layout and no-JavaScript fallback.
+
+The development server is only for local preview. It injects the live reload connection into served HTML, so the deployed files have no live reload code or dependencies.
