@@ -1,0 +1,11 @@
+{
+  "kind": "Original exhibition image and rendered poster details",
+  "poster": "dti-project.pdf",
+  "posterSha256": "47ec6ed2fe44d3277b8b2b439ea596ed285be66c8e7bff7ab81a7bead276e41d",
+  "sources": [
+    "https://github.com/how2fps/dti-ui/tree/main/src/components",
+    "https://github.com/how2fps/dti-ui/blob/main/src/App.js",
+    "https://github.com/how2fps/dti-backend/blob/main/App.js"
+  ],
+  "qualifications": "Day/night images are concept visualisations. Four-cell LED prototype shown in original poster. No live Arduino hardware test was performed."
+}

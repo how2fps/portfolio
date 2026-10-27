@@ -1,0 +1,62 @@
+const fs=require('fs');const sharp=require('C:/Users/heart/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/sharp');
+global.window={};require('../portfolio-data.js');const data=window.portfolioData;
+const group=(title,description,technologies)=>({title,description,technologies});
+async function shot(dir,name,title,caption){const src=`./pictures/${dir}/${name}.webp`;const m=await sharp(src).metadata();return {src,thumbnail:src.replace('.webp','-480.webp'),width:m.width,height:m.height,title,caption,alt:title+' — '+caption};}
+const existingShot=(p,title,caption)=>({...p.image,thumbnail:p.image.src.replace('.webp','-480.webp'),title,caption});
+(async()=>{
+const sut=data.projects.find(p=>p.title==='SutDoki');
+sut.category='SUTD · Python visual novel';
+sut.description='A team-built desktop visual novel set around university life. The player enters a name, chooses one of four character routes and makes dialogue decisions that shape relationships and branching scenes. Illustrated settings, character artwork, timed text and sound effects bring the stories into a single Tkinter application.';
+sut.links=[{label:'Source code',href:'https://github.com/how2fps/SUTDVisualNovel'}];
+sut.galleryTitle='Explore the story';
+sut.previewNote='The original project image appears first. The following curated scene previews are rendered from the Python story data and bundled artwork, following the Tkinter interface. Alex is a sample player name; these curated images are reconstructions rather than desktop captures.';
+sut.screenshots=[existingShot(sut,'Original project image','The existing SutDoki project image, retained ahead of the curated scene walkthrough.'),...await Promise.all([
+['01-start','Start a story','The start menu introduces the game and lets the player enter a name.'],
+['02-adam','Character dialogue','Adam Cmith’s route pairs character dialogue with an illustrated coffee-shop scene.'],
+['03-adam-choice','Make a decision','Three responses offer supportive, neutral and teasing ways to approach the encounter. The source choices link to different scene indices and affection changes.'],
+['04-jungcook','JungCook route','A separate character route introduces its own university-life scenes and dialogue.'],
+['05-xiaoming','Xiao Ming route','The classroom opening starts Xiao Ming’s route, which explores his reserved personality and school life.']
+].map(a=>shot('sutdoki',...a)))];
+sut.technologyGroups=[
+group('Story structure','A shared scene format stores dialogue text, an image path, speaker, sound, navigation options, affection checks and a final-scene flag. Route modules supply their own scene lists, while main.py renders them through the same createScenes function. This lets new story content reuse the existing interface.', ['Python','Scene data','Character routes','Tkinter']),
+group('Choices and character state','The Protagonist and NPC classes hold the player name and character information. NPC objects track affection with increase, decrease, read and reset methods. Choice records specify a destination scene and an affection change; scene records can also define thresholds for alternate paths. These are prototype mechanics, not a claim that every route and ending has been fully tested.',['Object-oriented Python','Branching dialogue','Affection state']),
+group('Desktop interface and media','Tkinter frames combine a scene image, speaker label, dialogue panel and choice or continue buttons. Scheduled after callbacks reveal dialogue character by character at 20 ms intervals. The cleanup routine cancels pending callbacks, stops sound and removes old widgets between scenes; winsound plays WAV assets asynchronously.',['Tkinter','PhotoImage','after callbacks','winsound','WAV audio'])];
+sut.technologies=[...new Set(sut.technologyGroups.flatMap(g=>g.technologies))];
+const pic=data.projects.find(p=>p.title==='Pic’A’Pixel');
+pic.category='SUTD DTI · Arduino & interactive lighting';
+pic.description='A team design-and-technology project exploring how a bus stop could become a place for shared interaction. Visitors pick a pixel and colour on a digital panel, contributing to a collective illuminated ceiling artwork. A secondary bus-boarding mode uses lighting and on-screen arrival/departure messages. The project combines a React interface, a Node serial bridge, Firestore and an Arduino-connected LED prototype.';
+pic.galleryTitle='From concept to prototype';
+pic.previewNote='The original exhibition image is followed by the supplied DTI poster and curated details extracted from it. The day/night bus-stop views are design visualisations; the four-cell LED unit is the prototype pictured in the poster.';
+pic.screenshots=[existingShot(pic,'Exhibition setting','The original project image shows Pic’A’Pixel presented in an exhibition setting.'),...await Promise.all([
+['02-design-poster','DTI project poster','The original poster brings together the problem, design goal, site, proposed interaction, prototype and user-testing feedback.'],
+['03-bus-stop-concept','Day and night concept','Design visualisations show the proposed pixel ceiling and interaction panel near Upper Changi MRT and SUTD. These images describe the concept rather than a completed bus-stop installation.'],
+['04-led-prototype','Four-cell LED prototype','The prototype pictured in the poster demonstrates independently coloured illuminated cells. The linked server code maps four grid positions to four hardware coordinates.']
+].map(a=>shot('picapixel',...a)))];
+pic.links=[{label:'DTI project poster (PDF)',href:'./pictures/picapixel/dti-project.pdf'},{label:'Frontend source',href:'https://github.com/how2fps/dti-ui'},{label:'Backend source',href:'https://github.com/how2fps/dti-backend'}];
+pic.technologyGroups=[
+group('Design goal and interaction','The DTI poster identifies boredom and limited interaction at the bus stop as the starting problem. The proposal pairs a shared colour-selection panel with an overhead pixel board, giving waiting passengers a small contribution to make together. Its secondary function signals bus arrival and boarding points.',['Participatory design','Interactive lighting','Arduino','LED prototype']),
+group('React colour-selection interface','PixelGrid renders a coordinate-labelled grid with selectable cells. ColorPickerModal uses a colour wheel, converts HSVA selections into RGB strings, updates the selected cell and posts the colour, coordinates and new grid to /pixel. The app listens for bus-arrival and bus-leaving WebSocket messages and swaps the header into the matching status.',['React','JavaScript','Material UI','@uiw/react-color','WebSocket']),
+group('Persistence and hardware bridge','The Express server reads and writes the grid in Cloud Firestore. It opens a configurable Arduino serial port at 9600 baud, pads RGB channels to three digits and sends coordinate-tagged colour commands. The supplied implementation maps grid cells [3,10] through [6,10] to the four prototype cells; it does not drive every cell of the conceptual ceiling. Serial bus events are relayed to the interface through a WebSocket server.',['Node.js','Express','Cloud Firestore','SerialPort','ReadlineParser','ws','Arduino serial']),
+group('Testing and next steps','The poster reports that most participants found the installation easy to use and that feedback supported its community-interaction goal, while noting difficulty for some participants. Proposed improvements include more sustainable materials, pixel animation, gradient control, selecting multiple pixels, bus interval information and a montage of changing artwork. These are documented next steps rather than features claimed as implemented.',['User testing','Prototype evaluation','Design iteration'])];
+pic.technologies=[...new Set(pic.technologyGroups.flatMap(g=>g.technologies))];
+const inv={id:'invmngr',title:'InvMngr',category:'Temasek Polytechnic · Full-stack inventory manager',description:'A full-stack inventory management project from my time at Temasek Polytechnic. It connects stock and reorder levels with customer and vendor records, sales and purchase orders, delivery/receipt status and outstanding balances. A dashboard highlights work that needs attention, while user roles and activity records support day-to-day administration.',galleryTitle:'Inside the app',previewNote:'Screenshots show the original Angular frontend running locally with an in-memory API replacement. Products, people, contacts, orders, balances and activity records are fictional demonstration data. No production database, email service or account was used.',links:[{label:'Frontend source',href:'https://github.com/how2fps/InvMngr-frontend'},{label:'API source',href:'https://github.com/how2fps/InvMngr-api'}],technologyGroups:[
+group('Angular frontend','Angular 11 routes organise the dashboard, inventory, customers, vendors, orders, users and activity log. Bootstrap and ng-bootstrap provide tables, forms, dialogs and navigation. Reactive forms support data entry, ngx-pagination manages list pages, and RxJS streams coordinate requests and debounced search. The inventory list highlights quantities at or below their reorder threshold.',['Angular 11','TypeScript','Bootstrap 4','ng-bootstrap','Reactive Forms','RxJS','ngx-pagination','Font Awesome']),
+group('Express API and MongoDB','A TypeScript/Express server separates routes, controllers and models for each business area. The native MongoDB driver handles records, generated reference counters, searches and paginated lists. express-validator checks incoming fields, and dashboard endpoints aggregate low-stock counts, pending orders and monthly totals.',['Node.js','Express','TypeScript','MongoDB','express-validator','REST API']),
+group('Stock and order workflows','Sales orders store line-item quantities, prices, discounts and delivery/payment flags. Creating a sale decrements inventory and adds unpaid amounts to the customer’s receivables. Purchase orders track vendors, expected arrivals and receipt status; received goods increase stock, and unpaid purchases affect vendor payables. Item detail pages connect stock to its purchase and sales history.',['Inventory tracking','Sales orders','Purchase orders','Receivables','Payables','MongoDB bulkWrite']),
+group('Accounts, roles and activity','The implementation uses JWT access/refresh tokens, bcrypt password hashing and role checks for New User, Worker, Manager and Administrator accounts. Angular guards control route access, while API middleware also checks authentication and allowed roles. User activity records link actions to their actor and affected record. The API includes email-based password-reset handling with SendGrid.',['JWT','bcrypt','Role-based access','Angular route guards','Activity logs','SendGrid'])]};
+inv.technologies=[...new Set(inv.technologyGroups.flatMap(g=>g.technologies))];
+inv.screenshots=await Promise.all([
+['01-dashboard','Operations dashboard','Low-stock alerts, pending deliveries and receipts, monthly totals and outstanding balances at a glance.'],
+['02-inventory','Stock and reorder levels','Browse SKUs, search stock records and spot low quantities highlighted against their reorder levels.'],
+['03-item-history','Item purchase history','An individual stock record combines quantity and reorder settings with linked order history.'],
+['04-sales-orders','Sales and deliveries','Review customer orders alongside delivery dates and delivered/paid status.'],
+['05-purchase-orders','Purchasing and receipts','Track vendor orders, expected arrivals and received/paid status.'],
+['06-customers','Customer balances','Customer contact records sit alongside their outstanding receivables.'],
+['07-user-roles','User roles','The original user list shows Administrator, Manager and Worker roles using fictional accounts.'],
+['08-activity-log','Activity history','Actions are listed with the user reference, affected record and timestamp.']
+].map(a=>shot('inventory',...a)));
+inv.image={src:inv.screenshots[0].src,alt:inv.screenshots[0].alt,width:inv.screenshots[0].width,height:inv.screenshots[0].height};
+const previous=data.projects.findIndex(p=>p.id==='invmngr');if(previous>=0)data.projects[previous]=inv;else data.projects.splice(3,0,inv);
+fs.writeFileSync('portfolio-data.js','window.portfolioData = '+JSON.stringify(data,null,2)+';\n');
+console.log('Updated SutDoki, Pic’A’Pixel and InvMngr; '+data.projects.length+' projects.');
+})();

@@ -1,0 +1,45 @@
+{
+  "kind": "Code-based screen reconstruction",
+  "emulatorCapture": false,
+  "sourceRepository": "https://github.com/ChimJohn/kNow",
+  "sourceDirectory": "Prototype/app/src/main/res",
+  "screens": [
+    {
+      "file": "01-explore.webp",
+      "title": "Explore nearby",
+      "layout": "fragment_explore.xml"
+    },
+    {
+      "file": "02-place-search.webp",
+      "title": "Find a place",
+      "layout": "fragment_explore.xml"
+    },
+    {
+      "file": "03-profile.webp",
+      "title": "Profile and collections",
+      "layout": "fragment_profile.xml"
+    },
+    {
+      "file": "04-story.webp",
+      "title": "View a story",
+      "layout": "fragment_story_view.xml + item_story_view.xml"
+    },
+    {
+      "file": "05-publish.webp",
+      "title": "Publish a story",
+      "layout": "fragment_story_upload.xml"
+    },
+    {
+      "file": "06-create-map.webp",
+      "title": "Create a custom map",
+      "layout": "activity_create_custom_map.xml"
+    },
+    {
+      "file": "07-edit-profile.webp",
+      "title": "Edit a profile",
+      "layout": "fragment_edit_profile.xml"
+    }
+  ],
+  "fixtures": "Sample profile, counts, places, vector map and illustrated story media; no Firebase data accessed.",
+  "renderer": "tools/render-know.cjs"
+}

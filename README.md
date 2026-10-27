@@ -1,50 +1,35 @@
-# Finn's portfolio
+# Finn’s portfolio
 
-A responsive portfolio with a Codex-inspired workspace: projects in a sidebar, details in the centre, useful links on the right, and a project search at the bottom. It uses plain HTML, CSS, and JavaScript with no dependencies or build step.
+A static portfolio built with HTML, CSS and JavaScript. No dependencies or build step are required.
 
-## Start locally
+## Preview
 
-From this folder, run:
+Open this folder in VS Code, right-click `index.html` and choose **Open with Live Server**. Saved changes refresh automatically at http://127.0.0.1:5500.
 
-```sh
-node server.mjs
-```
+Alternatively, run `node server.mjs` and open http://localhost:3000.
 
-Open **http://localhost:3000** and leave the server running. Saving HTML, CSS, JavaScript, or images refreshes the browser automatically. No server restart or manual browser refresh is needed for those files. Stop the server with **Ctrl+C**.
+## Edit
 
-If you were running an older version of the server before live reload was added, stop it and run the command above once. Changes to `server.mjs` itself still require restarting the server.
+- `index.html`: workspace structure and navigation.
+- `workspace.css`: layout, responsive styles and proportional image presentation.
+- `workspace.js`: project navigation, screenshot galleries, local search and fixed sidebar links.
+- `theme.js`: Moonlight/Sunshine theme selection, restored before styles load and remembered locally.
+- `command-palette.js`: Ctrl+K / Cmd+K quick switcher for projects, pages, profile links and themes. Use arrow keys and Enter; Escape closes the native modal. The caption shortcut also opens it.
+- `portfolio-data.js`: all eight project descriptions, technology explanations, screenshots and biography. Edit this file to change project content.
+- `pictures/`: project images and thumbnails.
 
-You can also use `npm run dev`. If PowerShell blocks `npm.ps1`, use `npm.cmd run dev` or the direct Node command above; no execution policy change is needed.
+The overview page and focus-only search shortcuts have been removed. Search remains available in the bottom input. Ctrl+K (Cmd+K on Mac) opens the command palette.
 
-## Edit the portfolio
+kNow’s explanations were checked against the local Android Java source and Gradle dependencies. Its seven reconstructed screen previews follow the Android XML layouts and bundled drawable assets: explore, place search, profile, story viewer, story publishing, custom map creation and profile editing. Names, counts, place results, map artwork and illustrated media are sample content. These are code-based reconstructions, not emulator captures. No Firebase data is accessed. Sources and qualifications are recorded in `pictures/know/provenance.json`; `tools/render-know.cjs` regenerates the SVG and WebP files using the local source tree and bundled Sharp library.
 
-- `index.html`: the main portfolio workspace.
-- `workspace.css`: workspace layout, colors, and responsive navigation.
-- `workspace.js`: project navigation, local keyword search, and detail views. Search matches existing project content; it does not use an AI service.
-- **Recent chats** at the bottom of the sidebar reopens the six most recently viewed projects, pages, and searches. History is stored locally in the visitor's browser and survives refreshes.
-- `overview.html`: the traditional portfolio and the source of the project names, descriptions, links, technologies, and biography used by the workspace. Edit project content here; the workspace reads it automatically.
-- `style.css`: the traditional overview's colors, typography, and layouts.
-- `index.js`: image previews on the overview page.
-- `pictures/optimized/`: small WebP images used by the page. Original images are preserved in `pictures/`.
-- `pictures/sproutteach/`: eleven reconstructed app screenshots and small WebP thumbnails.
-- `pictures/envogue/`: nine Envogue / Envorya POS screenshots and thumbnails. Both galleries use responsive main images and lazy-loaded thumbnails.
+SproutTeach and Envorya POS retain their screenshot walkthroughs and frontend/backend explanations. Their demo screenshots use sample data.
 
-All eight projects appear in the workspace sidebar and remain available in the overview. SproutTeach includes an eleven-screen walkthrough, separate frontend and backend technology descriptions, and both source repository links. Envorya POS (the Envogue app and API) now has a nine-screen walkthrough and separate frontend/backend explanations. Both it and Enbyte Systems link to the supplied product website.
+## Added project stories
 
-SproutTeach's stack descriptions were checked against the local `teaching-app` and `teaching-app-backend` source. The frontend uses React/TypeScript, Vite, Tailwind CSS, Radix UI, TanStack Query, Axios, React Hook Form, Zod, Konva, dnd-kit, Socket.IO and jsPDF. The backend uses Node/Express/TypeScript, MySQL, Redis with Lua and Pub/Sub, Socket.IO, Passport for Google/Microsoft sign-in, Cloudflare R2 via the S3 SDK, and Docker.
-
-The screenshots were rendered from a separate local reconstruction of the original frontend using sample classroom data. The hosted service is offline; attendance, scores and names shown are demonstrations rather than usage metrics. Images were not redesigned or generated. The optimized screenshots and thumbnails are included in this repository; the local reconstruction tools are maintained separately.
-
-Envogue / Envorya descriptions were checked against the local `envouge-app` and `envogue-api` code. The frontend uses React/TypeScript, Vite/PWA, React Router, Tailwind CSS, Flowbite, Material UI, i18next, Axios, Chart.js, jsPDF, spreadsheet exports and ZXing. The backend is JavaScript/CommonJS on Node/Express with the native MongoDB driver, transactional payment records and shared calculations, JWT/bcrypt, Firebase Storage, Pusher, Mailjet and Vercel scheduled routes. It records payments confirmed by staff; the description does not imply a payment gateway or bank transfer service.
-
-The Envogue screenshots show the original frontend running with local fixtures. Customer identities, schedules, stock and sales figures are fictional, and no production database or external service was used. The nine optimized screenshots and thumbnails are included in this repository. The existing Envorya title and project URL are retained because Envogue and Envorya coexist in the app's source and branding.
-
-Other descriptions use supplied details, Enbyte Systems' public product information, and existing screenshots. Add specific contributions and measured outcomes when available.
-
-The GitHub profile comes from this repository's existing remote. Add your preferred email, LinkedIn profile, and résumé link when ready.
+- **InvMngr**: Temasek Polytechnic full-stack project, with eight browser screenshots of the original Angular frontend using fictional in-memory API data. The temporary checkout changes only the API provider and initial demo session; no original templates or styles were redesigned. Frontend commit `2f8eb2e3d6daaf0f529416de9ecebe64ce137856`; API commit `61d3a794b8cea45835a6ecbb9385df7499d1d74c`. `tools/inventory-screenshot-fixtures.ts` records the sample data provider. `tmp/` checkouts, dependencies and captures are ignored by Git.
+- **SutDoki**: source-based explanations of scenes, character state, choices, text scheduling and sound. The existing image leads a six-image gallery; five curated previews use the original artwork and scene text with a sample player name. These are explicitly labelled reconstructions. `tools/render-project-stories.cjs` renders the curated views from `tmp/sutdoki-scenes.json`, extracted from the local Python source.
+- **Pic’A’Pixel**: the DTI poster, its concept visualisations and LED prototype photo support the Arduino, React, Firestore and serial-bridge explanations. The original PDF is included in `pictures/picapixel/`. The four-cell prototype mapping is distinguished from the proposed full ceiling. Design testing and planned improvements are attributed to the poster.
 
 ## Publish
 
-Deploy `index.html`, `workspace.css`, `workspace.js`, `overview.html`, `style.css`, `index.js`, `favicon.svg`, `pictures/optimized/`, `pictures/sproutteach/`, and `pictures/envogue/` to any static website host. Keep `overview.html` alongside the workspace: it supplies the project content and provides the alternate layout and no-JavaScript fallback.
-
-The development server is only for local preview. It injects the live reload connection into served HTML, so the deployed files have no live reload code or dependencies.
+Deploy `index.html`, `portfolio-data.js`, `workspace.js`, `theme.js`, `command-palette.js`, `workspace.css`, `favicon.svg` and `pictures/` to GitHub Pages or another static host. No Node server is needed in production.

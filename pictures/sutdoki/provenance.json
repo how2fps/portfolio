@@ -1,0 +1,14 @@
+{
+  "kind": "Original project image followed by curated code-based reconstructions",
+  "repository": "https://github.com/how2fps/SUTDVisualNovel",
+  "sourceFiles": [
+    "main.py",
+    "classes.py",
+    "adamcmith.py",
+    "jungcook.py",
+    "xiaoming.py"
+  ],
+  "reconstructionCount": 5,
+  "method": "Original artwork and scene text composited with a source-based Tkinter layout; sample player name Alex. Not native desktop screenshots.",
+  "renderer": "tools/render-project-stories.cjs"
+}

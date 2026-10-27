@@ -1,0 +1,17 @@
+{
+  "kind": "Browser screenshots of original Angular UI with in-memory sample API",
+  "frontend": {
+    "repository": "https://github.com/how2fps/InvMngr-frontend",
+    "commit": "2f8eb2e3d6daaf0f529416de9ecebe64ce137856"
+  },
+  "api": {
+    "repository": "https://github.com/how2fps/InvMngr-api",
+    "commit": "61d3a794b8cea45835a6ecbb9385df7499d1d74c"
+  },
+  "modifications": [
+    "Screenshot HTTP interceptor replaces all API requests with fictional data",
+    "Initial session uses a fictional Administrator user"
+  ],
+  "productionServicesUsed": false,
+  "captureCount": 8
+}

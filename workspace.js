@@ -8,43 +8,6 @@ const mobile = window.matchMedia("(max-width: 700px)");
 let projects = [];
 let biography = [];
 let lastNavigationFocus;
-const recentChatsKey = "finn.portfolio.recent-chats.v1";
-const recentChatsLimit = 6;
-let recentRoutes = [];
-try {
-    const stored = JSON.parse(localStorage.getItem(recentChatsKey) || "[]");
-    if (Array.isArray(stored)) recentRoutes = [...new Set(stored.filter((route) => typeof route === "string" && route.length <= 260))].slice(0, recentChatsLimit);
-} catch { /* Keep in-memory recents when browser storage is unavailable. */ }
-
-function recentChat(route) {
-    if (route === "home") return { route, title: "Welcome" };
-    if (route === "about") return { route, title: "About Finn" };
-    if (route === "links") return { route, title: "Links & elsewhere" };
-    if (route.startsWith("project/")) {
-        const project = projects.find((item) => item.id === route.slice(8));
-        if (project) return { route, title: project.title };
-    }
-    if (route.startsWith("search/") && route.slice(7).trim()) return { route, title: route.slice(7) };
-    return null;
-}
-
-function rememberCurrentChat() {
-    let route;
-    try { route = decodeURIComponent(location.hash.slice(1)) || "home"; } catch { route = "home"; }
-    if (!recentChat(route)) return;
-    recentRoutes = [route, ...recentRoutes.filter((previous) => previous !== route && recentChat(previous))].slice(0, recentChatsLimit);
-    try { localStorage.setItem(recentChatsKey, JSON.stringify(recentRoutes)); } catch { /* In-memory navigation still works. */ }
-    const focusedRoute = document.activeElement?.matches(".recent-chat") ? document.activeElement.dataset.route : null;
-    $("#recent-chats-list").innerHTML = recentRoutes.map((entry) => {
-        const chat = recentChat(entry);
-        const navigationRoute = chat.route.startsWith("search/") ? `search/${encodeURIComponent(chat.route.slice(7))}` : chat.route;
-        return `<button class="recent-chat" type="button" data-route="${escapeHtml(navigationRoute)}" title="${escapeHtml(chat.title)}"${entry === route ? ' aria-current="page"' : ""}>${escapeHtml(chat.title)}</button>`;
-    }).join("");
-    if (focusedRoute && !mobile.matches) {
-        Array.from(document.querySelectorAll(".recent-chat")).find((button) => button.dataset.route === focusedRoute)?.focus({ preventScroll: true });
-    }
-}
-
 function externalLink(link, className = "inline-link") {
     return `<a class="${className}" href="${escapeHtml(link.href)}" target="_blank" rel="noopener noreferrer">${className === "detail-link" ? icon("link") : ""}<span>${escapeHtml(link.label)}</span>${className === "inline-link" ? icon("arrow-up-right") : ""}</a>`;
 }
@@ -86,7 +49,7 @@ function screenshotImage(shot, thumbnail = false) {
 function renderGallery(project) {
     const first = project.screenshots[0];
     return `<section class="screenshot-gallery" aria-labelledby="screenshots-heading">
-        <h3 id="screenshots-heading">Inside the app</h3>
+        <h3 id="screenshots-heading">${escapeHtml(project.galleryTitle || "Inside the app")}</h3>
         <p class="screenshot-note">${escapeHtml(project.previewNote)}</p>
         <figure class="project-media screenshot-viewer">
             <a class="screenshot-full" href="${escapeHtml(first.src)}" target="_blank" rel="noopener noreferrer" aria-label="Open ${escapeHtml(first.title.toLowerCase())} screenshot at full size">${screenshotImage(first)}</a>
@@ -119,19 +82,16 @@ function selectScreenshot(gallery, index) {
 }
 
 function renderDetails(project) {
-    const links = project ? project.links : [
-        { label: "GitHub", href: "https://github.com/how2fps" },
-        { label: "Portfolio overview", href: "./overview.html" },
-    ];
-    const linkMarkup = links.map((link) => externalLink(link, "detail-link")).join("");
-    const stack = project?.technologyGroups.length
-        ? project.technologyGroups.map((group) => `<section class="detail-section"><h3>${escapeHtml(group.title)}</h3>${technologyTags(group.technologies)}</section>`).join("")
-        : project?.technologies.length ? `<section class="detail-section"><h3>Built with</h3>${technologyTags(project.technologies)}</section>` : "";
-    $("#details-content").innerHTML = `<div class="details-title"><span>${escapeHtml(project?.title || "portfolio")}</span><button class="icon-button" type="button" data-close-details aria-label="Close details">${icon("close")}</button></div>
-        <section class="detail-section"><div class="detail-count">${icon(project ? "folder" : "grid")}<span>${project ? "Project" : "Selected work"}</span><span>${project ? "Finn" : `${projects.length} projects`}</span></div>${project ? `<p style="margin-top:12px">${escapeHtml(project.category)}</p>` : ""}</section>
-        <section class="detail-section"><h3>Links</h3>${linkMarkup}</section>${stack}
-        ${project?.image ? `<section class="detail-section"><h3>Preview</h3><a href="${escapeHtml(project.image.src)}" target="_blank" rel="noopener noreferrer"><img class="preview-thumb" src="${escapeHtml(project.image.src)}" alt="${escapeHtml(project.image.alt)}" width="${project.image.width}" height="${project.image.height}" loading="lazy"></a></section>` : ""}
-        ${project ? `<section class="detail-section"><h3>Also available</h3><a class="detail-link" href="./overview.html">${icon("grid")}<span>View the portfolio overview</span></a></section>` : ""}`;
+    const closeButton = `<div class="details-title"><button class="icon-button" type="button" data-close-details aria-label="Close project panel">${icon("close")}</button></div>`;
+    if (!project) {
+        $("#details-content").innerHTML = `${closeButton}<section class="detail-section"><p>Select a project to see its key features and source links.</p></section>`;
+        return;
+    }
+    const brief = project.brief || {};
+    const sources = project.links.filter((link) => /github\.com\//i.test(link.href) || /\.pdf(?:[?#]|$)/i.test(link.href));
+    $("#details-content").innerHTML = `${closeButton}
+        ${brief.features?.length ? `<section class="detail-section brief-added"><h3><span aria-hidden="true">+</span> Key features</h3><ul class="brief-features">${brief.features.map((feature) => `<li>${escapeHtml(feature)}</li>`).join("")}</ul></section>` : ""}
+        ${sources.length ? `<section class="detail-section brief-removed"><h3><span aria-hidden="true">−</span> Source &amp; materials</h3>${sources.map((link) => externalLink(link, "detail-link")).join("")}</section>` : ""}`;
 }
 
 function showContent(markup, title, prompt = "") {
@@ -141,7 +101,6 @@ function showContent(markup, title, prompt = "") {
     $("#conversation-scroll").scrollTop = 0;
     if (mobile.matches) setSidebar(false);
     $("#view-status").textContent = title;
-    rememberCurrentChat();
 }
 
 function projectShortcuts(list) {
@@ -169,7 +128,7 @@ function renderProject(project) {
         ? `<div class="project-stack">${project.technologyGroups.map((group) => `<section class="technology-group"><h3>${escapeHtml(group.title)}</h3><p class="body-copy">${escapeHtml(group.description)}</p>${technologyTags(group.technologies)}</section>`).join("")}</div>`
         : project.technologies.length ? `<p class="stack-heading">Built with</p>${technologyTags(project.technologies)}` : "";
     const next = projects[(projects.indexOf(project) + 1) % projects.length];
-    showContent(`<article class="project-intro" data-project="${escapeHtml(project.id)}"><p class="section-kicker">Project ${String(projects.indexOf(project) + 1).padStart(2, "0")} of ${String(projects.length).padStart(2, "0")}</p><h2>${escapeHtml(project.title)}</h2><p class="project-type">${escapeHtml(project.category)}</p><p class="body-copy">${escapeHtml(project.description)}</p>${media}<div class="project-links">${project.links.map((link) => externalLink(link)).join("")}</div>${stack}<button class="next-project" type="button" data-route="project/${next.id}"><span>Next · ${escapeHtml(next.title)}</span>${icon("arrow-right")}</button></article>`, project.title, `Tell me about ${project.title}.`);
+    showContent(`<article class="project-intro" data-project="${escapeHtml(project.id)}"><h2>${escapeHtml(project.title)}</h2><p class="project-type">${escapeHtml(project.category)}</p><p class="body-copy">${escapeHtml(project.description)}</p>${media}<div class="project-links">${project.links.map((link) => externalLink(link)).join("")}</div>${stack}<button class="next-project" type="button" data-route="project/${next.id}"><span>Next · ${escapeHtml(next.title)}</span>${icon("arrow-right")}</button></article>`, project.title, `Tell me about ${project.title}.`);
     renderDetails(project);
 }
 
@@ -180,7 +139,7 @@ function renderAbout() {
 }
 
 function renderLinks() {
-    showContent(`<section class="welcome"><h2>More behind the work.</h2><p class="body-copy">Find my code and projects on GitHub, or browse the portfolio overview.</p><div class="project-links">${externalLink({label:"GitHub · how2fps",href:"https://github.com/how2fps"})}<a class="inline-link" href="./overview.html">Portfolio overview ${icon("arrow-up-right")}</a></div></section>`, "Links", "Where can I find you?");
+    showContent(`<section class="welcome"><h2>More behind the work.</h2><p class="body-copy">Find my code on GitHub, coding practice on LeetCode, and professional profile on LinkedIn.</p><div class="project-links">${externalLink({label:"GitHub · how2fps",href:"https://github.com/how2fps"})}${externalLink({label:"LeetCode · finnyap_",href:"https://leetcode.com/u/finnyap_/"})}${externalLink({label:"LinkedIn · Finn Yap",href:"https://www.linkedin.com/in/finn-yap-0a686b217/"})}</div></section>`, "Links", "Where can I find you?");
     renderDetails();
 }
 
@@ -197,14 +156,14 @@ function renderSearch(query) {
         return {project, score: tokens.reduce((score, token) => score + (name.includes(token) ? 3 : haystack.includes(token) ? 1 : 0), 0), exact: name === normalized};
     }).filter((result) => all || result.score > 0).sort((a,b) => Number(b.exact) - Number(a.exact) || b.score - a.score);
     if (!all && ranked.length && (ranked.length === 1 || ranked[0].exact || ranked[0].score > ranked[1].score)) { renderProject(ranked[0].project); return; }
-    showContent(`<section><h2 class="results-heading">${all ? "The work, at a glance." : ranked.length ? "Here's what I found." : "No matching projects yet."}</h2><p class="body-copy">${all ? "Eight different projects. A shared interest in making things useful." : ranked.length ? "Pick a project to take a closer look." : "Try a project name, “spa POS”, or a technology like React."}</p><div class="result-list">${ranked.map(({project}) => `<button class="result" type="button" data-route="project/${project.id}"><h3>${escapeHtml(project.title)} <span aria-hidden="true">↗</span></h3><p>${escapeHtml(project.description)}</p></button>`).join("")}</div></section>`, all ? "All projects" : "Search portfolio", query || "Show me your work.");
+    showContent(`<section><h2 class="results-heading">${all ? "The work, at a glance." : ranked.length ? "Here's what I found." : "No matching projects yet."}</h2><p class="body-copy">${all ? `${projects.length} different projects. A shared interest in making things useful.` : ranked.length ? "Pick a project to take a closer look." : "Try a project name, “spa POS”, or a technology like React."}</p><div class="result-list">${ranked.map(({project}) => `<button class="result" type="button" data-route="project/${project.id}"><h3>${escapeHtml(project.title)} <span aria-hidden="true">↗</span></h3><p>${escapeHtml(project.description)}</p></button>`).join("")}</div></section>`, all ? "All projects" : "Search portfolio", query || "Show me your work.");
     renderDetails();
 }
 
 function renderRoute() {
     let route;
     try { route = decodeURIComponent(location.hash.slice(1)); } catch { route = ""; }
-    document.querySelectorAll(".project-nav,.nav-action").forEach((element) => element.removeAttribute("aria-current"));
+    document.querySelectorAll(".project-nav,.nav-action,.sidebar-link").forEach((element) => element.removeAttribute("aria-current"));
     if (route.startsWith("project/")) {
         const project = projects.find((item) => item.id === route.slice(8));
         if (project) {
@@ -213,6 +172,7 @@ function renderRoute() {
             return;
         }
     }
+    document.querySelector('.sidebar-link[href="#links"]')?.toggleAttribute("aria-current", route === "links");
     if (route === "about") renderAbout();
     else if (route === "links") renderLinks();
     else if (route.startsWith("search/")) renderSearch(route.slice(7));
@@ -245,19 +205,11 @@ $("#explore-form").addEventListener("submit", (event) => {
     $("#explore-input").value = "";
 });
 
-function focusSearch() {
-    if (mobile.matches) setSidebar(false);
-    $("#explore-input").focus();
-    $("#explore-input").select();
-}
-$("#search-button").addEventListener("click", focusSearch);
-$("#rail-search").addEventListener("click", focusSearch);
 $("#sidebar-toggle").addEventListener("click", () => setSidebar(mobile.matches ? !document.body.classList.contains("mobile-sidebar-open") : document.body.classList.contains("sidebar-closed")));
 $("#sidebar-backdrop").addEventListener("click", () => setSidebar(false));
 $("#details-toggle").addEventListener("click", () => setDetails(!document.body.classList.contains("details-open")));
 document.addEventListener("keydown", (event) => {
-    if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") { event.preventDefault(); focusSearch(); }
-    if (event.key === "Escape") {
+    if (event.key === "Escape" && !$("#command-palette")?.open) {
         if (document.body.classList.contains("mobile-sidebar-open")) { setSidebar(false); lastNavigationFocus?.focus(); }
         if (window.innerWidth < 1280) setDetails(false);
     }
@@ -273,44 +225,14 @@ $("#sidebar-toggle").setAttribute("aria-expanded", String(!mobile.matches));
 
 async function initialize() {
     try {
-        const overviewUrl = new URL("./overview.html", location.href);
-        const response = await fetch(overviewUrl);
-        if (!response.ok) throw new Error("Portfolio overview unavailable");
-        const overview = new DOMParser().parseFromString(await response.text(), "text/html");
-        projects = Array.from(overview.querySelectorAll(".project-card"), (card) => {
-            const primaryLink = card.querySelector(".project-image-link");
-            const image = card.querySelector("img");
-            const title = text(card.querySelector("h3"));
-            const links = Array.from(card.querySelectorAll(".project-links a"), (link) => ({label:text(link).replace(/↗/g, "").trim(),href:new URL(link.getAttribute("href"),overviewUrl).href}));
-            if (!links.length && primaryLink) links.push({label:image ? "Open image" : "View project",href:new URL(primaryLink.getAttribute("href"),overviewUrl).href});
-            return {
-                id:slug(title), title,
-                category:text(card.querySelector(".project-category")),
-                description:text(card.querySelector(".project-summary")) || primaryLink?.dataset.description || text(card.querySelector(".project-category")),
-                technologies:Array.from(card.querySelectorAll(".tech-list li"),text),
-                technologyGroups:Array.from(card.querySelectorAll(".project-stack-group"), (group) => ({
-                    title:text(group.querySelector("h4")),
-                    description:text(group.querySelector("p")),
-                    technologies:Array.from(group.querySelectorAll(".tech-list li"),text),
-                })),
-                previewNote:text(card.querySelector(".project-preview-note")),
-                screenshots:Array.from(card.querySelectorAll(".project-gallery figure"), (figure) => {
-                    const shot = figure.querySelector("img");
-                    const src = new URL(shot.getAttribute("src"),overviewUrl).href;
-                    return {src,thumbnail:src.replace(/\.webp$/, "-480.webp"),alt:shot.alt,width:Number(shot.getAttribute("width")),height:Number(shot.getAttribute("height")),title:text(figure.querySelector("figcaption strong")),caption:text(figure.querySelector("figcaption span"))};
-                }),
-                links,
-                image:image ? {src:new URL(image.getAttribute("src"),overviewUrl).href,alt:image.alt,width:Number(image.getAttribute("width")),height:Number(image.getAttribute("height"))} : null,
-            };
-        });
-        if (!projects.length) throw new Error("No projects found");
-        biography = Array.from(overview.querySelectorAll(".about-copy > p:not(.eyebrow)"), text);
+        ({ projects, biography } = window.portfolioData);
+        if (!projects?.length) throw new Error("No projects found");
         renderNavigation();
         renderRoute();
     } catch (error) {
-        $("#project-navigation").innerHTML = '<a class="nav-action" href="./overview.html">Open portfolio overview ↗</a>';
-        $("#content").innerHTML = '<section class="welcome"><h2>Hey, I’m Finn.</h2><p class="body-copy">My project collection is available in the portfolio overview.</p><div class="project-links"><a class="inline-link" href="./overview.html">View projects ↗</a></div></section>';
-        $("#view-status").textContent = "Portfolio overview available";
+        $("#project-navigation").textContent = "Projects could not load. Please refresh.";
+        $("#content").innerHTML = '<section class="welcome"><h2>Unable to load projects.</h2><p class="body-copy">Please refresh the page to try again.</p></section>';
+        $("#view-status").textContent = "Projects could not load";
         console.error(error);
     }
 }
